@@ -14,16 +14,12 @@ import {
 })
 export default class NavMenuComp extends Vue {
   activeMenu: string = "home";
-  tabs: any[] = [
-    { label: "首页", index: "/home" },
-    { label: "我读", index: "/read" },
-    { label: "我写", index: "/write" },
-    { label: "课程", index: "/course" },
-    { label: "讲座", index: "/chair" },
-    { label: "会议", index: "/meeting" },
-    { label: "新学联盟", index: "/alliance" },
-    { label: "新学人物", index: "/personage" },
-  ];
+  @Prop({
+    default: () => {
+      return [];
+    },
+  })
+  tabs: any[];
 
   @Watch("$route.path")
   routrChange(valueNew: string, valueOld: string) {
