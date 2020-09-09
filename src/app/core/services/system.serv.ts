@@ -75,4 +75,10 @@ export class SystemService extends BaseService implements ISystemService {
   public loginDo(params: any): Promise<any> {
     return this.proxyHttp.post("login", params);
   }
+  public backLearningName(params: any): Promise<any> {
+    return this.proxyHttp.post("backLearningName", params);
+  }
+  public changeOrgMobile(params: any): Promise<any> {
+    return this.proxyHttp.post("changeOrgMobile", params);
+  }
 }

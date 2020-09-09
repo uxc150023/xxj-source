@@ -1,14 +1,39 @@
 @import "./var.scss";
 @import "~element-ui/packages/theme-chalk/src/index";
 
-.modal-form{
-  .el-dialog__body{
+.modal-form {
+  .el-dialog__body {
     padding: 20px 30px;
   }
 }
 
-.form-long-width{
-  .el-input, .el-select, .el-cascader{
-    width: 100%
+.form-long-width {
+  .el-input,
+  .el-select,
+  .el-cascader {
+    width: 100%;
+  }
+}
+
+// 输入框
+.el-form {
+  .el-form-item {
+    margin-bottom: 28px;
+    .el-form-item__error {
+      font-size: 12px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #f88383;
+      line-height: 14px;
+    }
+  }
+  .el-input--medium {
+    .el-input__inner {
+      height: 46px;
+      font-size: 22px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      line-height: 30px;
+    }
   }
 }

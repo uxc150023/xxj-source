@@ -11,7 +11,7 @@ interface IHomePage {}
 })
 export default class HomePage extends mixins(BasePage) implements IHomePage {
   title: string = "首页";
-  activeName: "用户管理";
+  activeName: string = "first";
   // tabs: any[] = [
   //   { label: "新学鱼雁", index: "/home" },
   //   { label: "我读", index: "/read" },
@@ -23,6 +23,10 @@ export default class HomePage extends mixins(BasePage) implements IHomePage {
   //   { label: "新学人物", index: "/personage" },
   // ];
   fetchData() {
+    //
+  }
+
+  handleClick() {
     //
   }
   /* 生命钩子 START */

@@ -4,35 +4,73 @@
       placement="bottom"
       width="400"
       trigger="click"
+      popper-class="login-popper"
       v-model="showLogin"
     >
-      <el-form
-        :model="ruleForm"
-        :rules="rules"
-        ref="ruleForm"
-        class="demo-ruleForm"
-      >
-        <el-form-item label="" prop="pass">
-          <el-input
-            type="password"
-            v-model="ruleForm.pass"
-            placeholder="请输入注册手机/新学名"
-          ></el-input>
-        </el-form-item>
-        <el-form-item label="" prop="checkPass">
-          <el-input
-            type="password"
-            v-model="ruleForm.checkPass"
-            placeholder="密码 或 手机验证码"
-          ></el-input>
-        </el-form-item>
+      <p><span>新学界</span> <span>我世界</span></p>
+      <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
+        <el-radio-button label="per">个人注册</el-radio-button>
+        <el-radio-button label="org">机构或社团等注册</el-radio-button>
+      </el-radio-group>
 
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')"
-            >登录</el-button
+      <el-tabs v-model="tabPosition" class="login-tabs">
+        <el-tab-pane label="" name="per">
+          <el-form
+            :model="loginForm"
+            :rules="rules"
+            ref="loginForm"
+            class="demo-loginForm"
           >
-        </el-form-item>
-      </el-form>
+            <el-form-item label="" prop="phoneNumber">
+              <el-input
+                type="tel"
+                v-model="loginForm.phoneNumber"
+                placeholder="请输入手机号"
+                size="medium"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="" prop="verifyCode">
+              <el-input
+                type="text"
+                v-model="loginForm.verifyCode"
+                placeholder="手机验证码"
+                size="medium"
+              ></el-input>
+            </el-form-item>
+
+            <el-form-item label="" prop="password">
+              <el-input
+                type="password"
+                v-model="loginForm.password"
+                placeholder="请用8-20位数字加字母设置密码"
+                size="medium"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="" prop="passwordCommit">
+              <el-input
+                type="password"
+                v-model="loginForm.passwordCommit"
+                placeholder="请再次输入密码"
+                size="medium"
+              ></el-input>
+            </el-form-item>
+
+            <el-form-item label="" prop="autoLogin">
+              <el-checkbox v-model="loginForm.autoLogin">
+                同意新学界注册协议
+              </el-checkbox>
+            </el-form-item>
+
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('loginForm')"
+                >登录</el-button
+              >
+            </el-form-item>
+          </el-form></el-tab-pane
+        >
+        <el-tab-pane label="" name="org">配置管理</el-tab-pane>
+      </el-tabs>
+
       <span slot="reference" class="btn">登录</span>
     </el-popover>
   </div>
@@ -57,6 +95,13 @@ $color: #333;
     font-weight: 400;
     color: #ffffff;
     cursor: pointer;
+  }
+}
+.login-tabs {
+  /deep/ {
+    .el-tabs__header {
+      display: none;
+    }
   }
 }
 </style>

@@ -9,6 +9,7 @@ import {
   Vue,
   Watch,
 } from "vue-property-decorator";
+import Common from "../../core/common";
 import { PATTERN_REG } from "../../core/constants";
 
 @Component({
@@ -16,13 +17,23 @@ import { PATTERN_REG } from "../../core/constants";
 })
 export default class LoginComp extends Vue {
   showLogin: boolean = false;
-  ruleForm: any = {
-    checkPass: "",
-    pass: "",
+  tabPosition: string = "per"; // per个人  org社团
+  loginForm: any = {
+    autoLogin: false,
+    password: "",
+    passwordCommit: "",
+    phoneNumber: "",
+    verifyCode: "",
   };
   rules: any = {
-    checkPass: [{ validator: this.isPawAvailable2, trigger: "change" }],
-    pass: [{ validator: this.isPawAvailable, trigger: "change" }],
+    autoLogin: [
+      { required: true, message: "请先阅读并统一协议", trigger: "change" },
+    ],
+    password: [{ validator: this.isPawAvailable, trigger: "change" }],
+    passwordCommit: [
+      { validator: this.passwordCommitAvailable, trigger: "change" },
+    ],
+    phoneNumber: [{ validator: this.validateMobile, trigger: "change" }],
   };
   /**
    * 密码正则校验
@@ -43,7 +54,7 @@ export default class LoginComp extends Vue {
     }
   }
 
-  isPawAvailable2(rule: any, password: any, callback: any) {
+  passwordCommitAvailable(rule: any, password: any, callback: any) {
     const myreg = PATTERN_REG.password;
     if (!password) {
       callback(new Error("请输入新密码"));
@@ -51,22 +62,44 @@ export default class LoginComp extends Vue {
     if (!myreg.test(password)) {
       callback(new Error("8-20位、大小写字母+数据组合"));
     }
-    if (this.ruleForm.pass !== this.ruleForm.checkPass) {
+    if (this.loginForm.pass !== this.loginForm.checkPass) {
       callback(new Error("两次输入密码不一致"));
     } else {
       callback();
     }
   }
 
-  submitForm() {
-    (this.$refs.ruleForm as ElForm).validate((valid: any) => {
-      if (valid) {
-        alert("submit!");
+  /**
+   * 手机号校验
+   * @param rule
+   * @param value
+   * @param callback
+   */
+  validateMobile(rule: any, value: string, callback: any) {
+    if (value) {
+      if (Common.isValidateMobile(value)) {
+        callback();
       } else {
-        console.log("error submit!!");
-        return false;
+        callback(new Error("请输入正确的手机号"));
       }
-    });
+    } else {
+      callback(new Error("请输入手机号"));
+    }
+  }
+
+  submitForm() {
+    try {
+      (this.$refs.loginForm as ElForm).validate((valid: any) => {
+        if (valid) {
+          alert("submit!");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    } catch (error) {
+      //
+    }
   }
 
   /* 生命钩子 START */
