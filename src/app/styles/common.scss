@@ -206,8 +206,8 @@ ul {
   height: 46px;
   border-radius: 2px;
   text-align: center;
-  color: #2cbbd3;
-  border-color: #2cbbd3;
+  color: #3377ff;
+  border-color: #3377ff;
   background: rgba(44, 187, 211, 0.1);
   padding: 0;
   &.is-disabled {
@@ -218,8 +218,8 @@ ul {
   }
   &:hover:not(.is-disabled),
   &:active {
-    border: 1px solid mix(#fff, #2cbbd3, 20%);
-    background: mix(#fff, #41c2d7, 80%);
-    color: mix(#fff, #2cbbd3, 20%);
+    border: 1px solid mix(#fff, #3377ff, 20%);
+    background: mix(#fff, #2593fc, 80%);
+    color: mix(#fff, #3377ff, 20%);
   }
 }

@@ -42,7 +42,7 @@
                   ref="msgBtn"
                   size="large"
                   class="smsCode-button"
-                  :disabled="!allowSendMsg"
+                  :disabled="!allowSendMsgPer"
                   style="width: 253px;font-size: 22px;"
                   @click="send($event)"
                   >获取验证码</el-button
@@ -140,7 +140,7 @@
                   ref="msgBtn"
                   size="large"
                   class="smsCode-button"
-                  :disabled="!allowSendMsg"
+                  :disabled="!allowSendMsgOrg"
                   style="width: 253px;font-size: 22px;"
                   @click="send($event)"
                   >获取验证码</el-button

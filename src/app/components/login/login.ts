@@ -22,9 +22,9 @@ export default class LoginComp extends Vue {
   perRegForm: LoginInfo = new LoginInfo();
   orgRegForm: LoginInfo = new LoginInfo();
   options: any[] = [
-    { label: "xxx", value: "1" },
-    { label: "yyy", value: "2" },
-    { label: "zzz", value: "3" },
+    { label: "xxx", value: 1 },
+    { label: "yyy", value: 2 },
+    { label: "zzz", value: 3 },
   ];
   rules: any = {
     autoLogin: [
@@ -45,8 +45,18 @@ export default class LoginComp extends Vue {
       { required: true, message: "请选择单位或社团类型", trigger: "change" },
     ],
   };
-  allowSendMsg: boolean = false;
+  // allowSendMsg: boolean = false;
   loginAllow: boolean = false;
+
+  get allowSendMsgPer() {
+    const pass = Common.isValidateMobile(this.perRegForm.phoneNumber);
+    return pass;
+  }
+  get allowSendMsgOrg() {
+    const pass = Common.isValidateMobile(this.orgRegForm.newPhoneNumber);
+    return pass;
+  }
+
   /**
    * 密码正则校验
    * @param rule
