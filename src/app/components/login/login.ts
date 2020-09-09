@@ -60,7 +60,7 @@ export default class LoginComp extends Vue {
     if (!myreg.test(password)) {
       callback(new Error("8-20位、大小写字母+数据组合"));
     }
-    if (this.loginForm.pass !== this.loginForm.checkPass) {
+    if (this.loginForm.password !== this.loginForm.passwordCommit) {
       callback(new Error("两次输入密码不一致"));
     } else {
       callback();
