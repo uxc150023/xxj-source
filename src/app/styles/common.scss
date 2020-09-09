@@ -195,3 +195,31 @@ ul {
   background-color: #ccc;
   -webkit-border-radius: 6px;
 }
+
+.flex {
+  display: flex;
+}
+
+// 验证码
+.smsCode-button {
+  width: 142px;
+  height: 46px;
+  border-radius: 2px;
+  text-align: center;
+  color: #2cbbd3;
+  border-color: #2cbbd3;
+  background: rgba(44, 187, 211, 0.1);
+  padding: 0;
+  &.is-disabled {
+    background: #f9f9f9;
+    border-color: #dcdfe6;
+    background: #f9f9f9;
+    color: #a5a9b3;
+  }
+  &:hover:not(.is-disabled),
+  &:active {
+    border: 1px solid mix(#fff, #2cbbd3, 20%);
+    background: mix(#fff, #41c2d7, 80%);
+    color: mix(#fff, #2cbbd3, 20%);
+  }
+}

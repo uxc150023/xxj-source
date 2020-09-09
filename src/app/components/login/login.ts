@@ -19,7 +19,13 @@ import { PATTERN_REG } from "../../core/constants";
 export default class LoginComp extends Vue {
   showLogin: boolean = false;
   tabPosition: string = "per"; // per个人  org社团
-  loginForm: LoginInfo = new LoginInfo();
+  perRegForm: LoginInfo = new LoginInfo();
+  orgRegForm: LoginInfo = new LoginInfo();
+  options: any[] = [
+    { label: "xxx", value: "1" },
+    { label: "yyy", value: "2" },
+    { label: "zzz", value: "3" },
+  ];
   rules: any = {
     autoLogin: [
       { required: true, message: "请先阅读并同意协议", trigger: "change" },
@@ -32,7 +38,15 @@ export default class LoginComp extends Vue {
     verifyCode: [
       { required: true, message: "请输入验证码", trigger: "change" },
     ],
+    learningName: [
+      { required: true, message: "请输入新学名", trigger: "change" },
+    ],
+    verifyType: [
+      { required: true, message: "请选择单位或社团类型", trigger: "change" },
+    ],
   };
+  allowSendMsg: boolean = false;
+  loginAllow: boolean = false;
   /**
    * 密码正则校验
    * @param rule
@@ -60,7 +74,7 @@ export default class LoginComp extends Vue {
     if (!myreg.test(password)) {
       callback(new Error("8-20位、大小写字母+数据组合"));
     }
-    if (this.loginForm.password !== this.loginForm.passwordCommit) {
+    if (this.perRegForm.password !== this.perRegForm.passwordCommit) {
       callback(new Error("两次输入密码不一致"));
     } else {
       callback();
@@ -85,9 +99,14 @@ export default class LoginComp extends Vue {
     }
   }
 
+  /**
+   * 发送验证码
+   */
+  send() {}
+
   submitForm() {
     try {
-      (this.$refs.loginForm as ElForm).validate((valid: any) => {
+      (this.$refs.perRegForm as ElForm).validate((valid: any) => {
         if (valid) {
           alert("submit!");
         } else {

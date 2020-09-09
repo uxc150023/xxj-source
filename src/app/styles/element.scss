@@ -27,13 +27,56 @@
       line-height: 14px;
     }
   }
-  .el-input--medium {
-    .el-input__inner {
+  .el-input--large {
+    .el-input__inner,
+    .el-select__inner {
       height: 46px;
       font-size: 22px;
       font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       line-height: 30px;
     }
+    input::-webkit-input-placeholder,
+    select::-webkit-input-placeholder {
+      /* WebKit browsers */
+      font-size: 22px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #c0c4cc;
+      line-height: 30px;
+    }
+    input:-moz-placeholder,
+    select:-moz-placeholder {
+      /* Mozilla Firefox 4 to 18 */
+      font-size: 22px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #c0c4cc;
+      line-height: 30px;
+    }
+    input::-moz-placeholder,
+    select::-moz-placeholder {
+      /* Mozilla Firefox 19+ */
+      font-size: 22px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #c0c4cc;
+      line-height: 30px;
+    }
+    input::-ms-input-placeholder,
+    select::-ms-input-placeholder {
+      /* Internet Explorer 10+ */
+      font-size: 22px;
+      font-family: PingFangSC-Regular, PingFang SC;
+      font-weight: 400;
+      color: #c0c4cc;
+      line-height: 30px;
+    }
+  }
+  // 按钮
+  .is-disabled {
+    background: #bdbdbd;
+    // border-radius: 0px 4px 4px 0px;
+    color: #fff;
   }
 }

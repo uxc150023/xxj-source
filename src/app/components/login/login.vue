@@ -2,7 +2,6 @@
   <div class="login-page">
     <el-popover
       placement="bottom"
-      width="400"
       trigger="click"
       popper-class="login-popper"
       v-model="showLogin"
@@ -16,62 +15,179 @@
       <el-tabs v-model="tabPosition" class="login-tabs">
         <el-tab-pane label="" name="per">
           <el-form
-            :model="loginForm"
+            :model="perRegForm"
             :rules="rules"
-            ref="loginForm"
+            ref="perRegForm"
             class="demo-loginForm"
           >
             <el-form-item label="" prop="phoneNumber">
               <el-input
                 type="tel"
-                v-model="loginForm.phoneNumber"
+                v-model="perRegForm.phoneNumber"
                 placeholder="请输入手机号"
-                size="medium"
+                size="large"
+                style="width: 512px"
               ></el-input>
             </el-form-item>
             <el-form-item label="" prop="verifyCode">
-              <el-input
-                type="text"
-                v-model="loginForm.verifyCode"
-                placeholder="手机验证码"
-                size="medium"
-              ></el-input>
+              <div class="flex">
+                <el-input
+                  type="text"
+                  v-model="perRegForm.verifyCode"
+                  placeholder="手机验证码"
+                  size="large"
+                  style="width: 260px"
+                ></el-input>
+                <el-button
+                  ref="msgBtn"
+                  size="large"
+                  class="smsCode-button"
+                  :disabled="!allowSendMsg"
+                  style="width: 253px;font-size: 22px;"
+                  @click="send($event)"
+                  >获取验证码</el-button
+                >
+              </div>
             </el-form-item>
 
             <el-form-item label="" prop="password">
               <el-input
                 type="password"
-                v-model="loginForm.password"
+                v-model="perRegForm.password"
                 placeholder="请用8-20位数字加字母设置密码"
-                size="medium"
+                size="large"
+                style="width: 512px"
               ></el-input>
             </el-form-item>
             <el-form-item label="" prop="passwordCommit">
               <el-input
                 type="password"
-                v-model="loginForm.passwordCommit"
+                v-model="perRegForm.passwordCommit"
                 placeholder="请再次输入密码"
-                size="medium"
+                size="large"
+                style="width: 512px"
               ></el-input>
             </el-form-item>
 
             <el-form-item label="" prop="autoLogin">
-              <el-checkbox-group v-model="loginForm.autoLogin">
+              <el-checkbox-group v-model="perRegForm.autoLogin">
                 <el-checkbox label="1">同意新学界注册协议</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
 
             <el-form-item>
-              <el-button type="primary" @click="submitForm('loginForm')"
-                >登录</el-button
+              <el-button
+                @click="submitForm('perRegForm')"
+                :disabled="!loginAllow"
+                class="smsCode-button"
+                size="large"
+                style="width: 512px;font-size: 32px;"
+                >注册</el-button
               >
             </el-form-item>
-          </el-form></el-tab-pane
-        >
-        <el-tab-pane label="" name="org">配置管理</el-tab-pane>
+          </el-form>
+        </el-tab-pane>
+        <el-tab-pane label="" name="org">
+          <el-form
+            :model="orgRegForm"
+            :rules="rules"
+            ref="orgRegForm"
+            class="demo-loginForm"
+          >
+            <el-form-item label="" prop="learningName">
+              <el-input
+                type="text"
+                v-model="orgRegForm.learningName"
+                placeholder="新学名（单位全称/简称/昵称，2字及以上）"
+                size="large"
+                style="width: 512px"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="" prop="verifyType">
+              <el-select
+                v-model="orgRegForm.verifyType"
+                placeholder="单位或社团类型 "
+                size="large"
+                style="width: 512px"
+              >
+                <el-option
+                  :label="item.label"
+                  :value="item.index"
+                  v-for="(item, index) in options"
+                  :key="index"
+                ></el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="" prop="phoneNumber">
+              <el-input
+                type="tel"
+                v-model="orgRegForm.newPhoneNumber"
+                placeholder="联系人手机号"
+                size="large"
+                style="width: 512px"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="" prop="verifyCode">
+              <div class="flex">
+                <el-input
+                  type="text"
+                  v-model="orgRegForm.newVerifyCode"
+                  placeholder="手机验证码"
+                  size="large"
+                  style="width: 260px"
+                ></el-input>
+                <el-button
+                  ref="msgBtn"
+                  size="large"
+                  class="smsCode-button"
+                  :disabled="!allowSendMsg"
+                  style="width: 253px;font-size: 22px;"
+                  @click="send($event)"
+                  >获取验证码</el-button
+                >
+              </div>
+            </el-form-item>
+
+            <el-form-item label="" prop="password">
+              <el-input
+                type="password"
+                v-model="orgRegForm.password"
+                placeholder="请用8-20位数字加字母设置密码"
+                size="large"
+                style="width: 512px"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="" prop="passwordCommit">
+              <el-input
+                type="password"
+                v-model="orgRegForm.passwordCommit"
+                placeholder="请再次输入密码"
+                size="large"
+                style="width: 512px"
+              ></el-input>
+            </el-form-item>
+
+            <el-form-item label="" prop="autoLogin">
+              <el-checkbox-group v-model="orgRegForm.autoLogin">
+                <el-checkbox label="1">同意新学界注册协议</el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+
+            <el-form-item>
+              <el-button
+                @click="submitForm('orgRegForm')"
+                :disabled="!loginAllow"
+                class="smsCode-button"
+                size="large"
+                style="width: 512px;font-size: 32px;"
+                >注册</el-button
+              >
+            </el-form-item>
+          </el-form>
+        </el-tab-pane>
       </el-tabs>
 
-      <span slot="reference" class="btn">登录</span>
+      <span slot="reference" class="btn">注册</span>
     </el-popover>
   </div>
 </template>
