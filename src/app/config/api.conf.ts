@@ -7,8 +7,7 @@ export const apiConfig: IApiConfig = {
   },
   post: {
     // SGV-BUILD-API-POST # NOT DELETE
-    // 用户登录
-    // login: "apiHost:/pmUser/login",
+    loginDo: "apiHost:/xxj/create/login/login",
     orgLogin: "apiHost:/xxj/create/login/orgLogin",
     personalLogin: "apiHost:/xxj/create/login/personalLogin",
     backLearningName: "apiHost:/xxj/create/manage/backLearningName",
