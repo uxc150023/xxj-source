@@ -9,6 +9,7 @@ import {
   Vue,
   Watch,
 } from "vue-property-decorator";
+import { LoginInfo } from "../../../app/core/domain/loginInfo";
 import Common from "../../core/common";
 import { PATTERN_REG } from "../../core/constants";
 
@@ -18,22 +19,19 @@ import { PATTERN_REG } from "../../core/constants";
 export default class LoginComp extends Vue {
   showLogin: boolean = false;
   tabPosition: string = "per"; // per个人  org社团
-  loginForm: any = {
-    autoLogin: false,
-    password: "",
-    passwordCommit: "",
-    phoneNumber: "",
-    verifyCode: "",
-  };
+  loginForm: LoginInfo = new LoginInfo();
   rules: any = {
     autoLogin: [
-      { required: true, message: "请先阅读并统一协议", trigger: "change" },
+      { required: true, message: "请先阅读并同意协议", trigger: "change" },
     ],
     password: [{ validator: this.isPawAvailable, trigger: "change" }],
     passwordCommit: [
       { validator: this.passwordCommitAvailable, trigger: "change" },
     ],
     phoneNumber: [{ validator: this.validateMobile, trigger: "change" }],
+    verifyCode: [
+      { required: true, message: "请输入验证码", trigger: "change" },
+    ],
   };
   /**
    * 密码正则校验
@@ -93,7 +91,6 @@ export default class LoginComp extends Vue {
         if (valid) {
           alert("submit!");
         } else {
-          console.log("error submit!!");
           return false;
         }
       });

@@ -56,9 +56,9 @@
             </el-form-item>
 
             <el-form-item label="" prop="autoLogin">
-              <el-checkbox v-model="loginForm.autoLogin">
-                同意新学界注册协议
-              </el-checkbox>
+              <el-checkbox-group v-model="loginForm.autoLogin">
+                <el-checkbox label="1">同意新学界注册协议</el-checkbox>
+              </el-checkbox-group>
             </el-form-item>
 
             <el-form-item>
