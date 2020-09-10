@@ -217,4 +217,30 @@ export default class Common {
 
     return info.slice(0, 3) + l.map((str) => icon).join("") + info.slice(-3);
   }
+
+  /**
+   * 函数防抖
+   * 当初发时间时，设定时间内未再次触发时间，事件执行一次，如果设定时间内又触发一次，重新开始延时设定时间
+   * @param handle 事件名
+   *  @param time 延迟时间，单位ms
+   * @param immediate 是否默认执行一次(第一次不延迟)
+   */
+  static debounce(
+    handle: (...args: any[]) => void,
+    time: number = 1000,
+    immediate: boolean = false,
+  ): () => void {
+    let timer: any = null;
+    return (...args: any) => {
+      if (immediate) {
+        handle.apply(this, args);
+        immediate = false;
+        return;
+      }
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        handle.apply(this, args);
+      }, time);
+    };
+  }
 }

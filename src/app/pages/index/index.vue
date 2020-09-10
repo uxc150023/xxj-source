@@ -24,7 +24,7 @@
   .page-bg {
     width: 100%;
     height: 186px;
-    background: red;
+    // background: red;
   }
   .el-header,
   .el-footer {

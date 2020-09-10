@@ -1,66 +1,65 @@
 import { ElForm } from "element-ui/types/form";
-import { Component, Prop, Provide, Vue, Watch } from "vue-property-decorator";
-import { LoginInfo } from "../../../app/core/domain/loginInfo";
+import {
+  Component,
+  Emit,
+  Inject,
+  Model,
+  Prop,
+  Provide,
+  Vue,
+  Watch,
+} from "vue-property-decorator";
 import { AutowiredService } from "../../../lib/sg-resource/decorators";
 import Common from "../../core/common";
 import { PATTERN_REG } from "../../core/constants";
+import { LoginInfo } from "../../core/domain/loginInfo";
 import { SystemService } from "../../core/services/system.serv";
-
-interface ILoginPage {
-  /**
-   * 登录框显示
-   */
-  showLogin: boolean;
-  /**
-   * 登录类型 per个人 org单位社团
-   */
-  loginType: string;
-  /**
-   * 个人登录form
-   */
-  perLoginForm: LoginInfo;
-  /**
-   * 单位登录form
-   */
-  orgLoginForm: LoginInfo;
-  /**
-   * 个人登录方式 0密码1短信
-   */
-  perLoginType: number;
-  /**
-   * 倒计时中
-   */
-  countDown: boolean;
-}
 
 @Component({
   components: {},
 })
-export default class LoginComp extends Vue implements ILoginPage {
+export default class RegisterComp extends Vue {
   @AutowiredService
   systemService: SystemService;
   showLogin: boolean = false;
-  loginType: string = "per";
-  perLoginForm: LoginInfo = new LoginInfo();
-  orgLoginForm: LoginInfo = new LoginInfo();
-  perLoginType: number = 0;
-  timer: any;
-  countDown: boolean = false;
-  debounceUse: any = Common.debounce(this.sendMsg, 500);
+  tabPosition: string = "per"; // per个人  org社团
+  perRegForm: LoginInfo = new LoginInfo();
+  orgRegForm: LoginInfo = new LoginInfo();
+  options: any[] = [
+    { label: "xxx", value: "1" },
+    { label: "yyy", value: "2" },
+    { label: "zzz", value: "3" },
+  ];
   rules: any = {
-    learningName: [
-      { required: true, message: "请输入新学名", trigger: "change" },
+    autoLogin: [
+      { required: true, message: "请先阅读并同意协议", trigger: "change" },
     ],
     password: [{ validator: this.isPawAvailable, trigger: "change" }],
+    passwordCommit: [
+      { validator: this.passwordCommitAvailable, trigger: "change" },
+    ],
     phoneNumber: [{ validator: this.validateMobile, trigger: "change" }],
     verifyCode: [
       { required: true, message: "请输入验证码", trigger: "change" },
     ],
+    learningName: [
+      { required: true, message: "请输入新学名", trigger: "change" },
+    ],
+    verifyType: [
+      { required: true, message: "请选择单位或社团类型", trigger: "change" },
+    ],
   };
+  countDown: boolean;
+  timer: any;
 
   get allowSendMsgPer() {
     return (
-      Common.isValidateMobile(this.perLoginForm.phoneNumber) && !this.countDown
+      Common.isValidateMobile(this.perRegForm.phoneNumber) && !this.countDown
+    );
+  }
+  get allowSendMsgOrg() {
+    return (
+      Common.isValidateMobile(this.orgRegForm.newPhoneNumber) && !this.countDown
     );
   }
 
@@ -78,6 +77,26 @@ export default class LoginComp extends Vue implements ILoginPage {
     }
     if (!myreg.test(password)) {
       callback(new Error("8-20位、大小写字母+数据组合"));
+    } else {
+      callback();
+    }
+  }
+  /**
+   * 确认密码校验
+   * @param rule
+   * @param password
+   * @param callback
+   */
+  passwordCommitAvailable(rule: any, password: any, callback: any) {
+    const myreg = PATTERN_REG.password;
+    if (!password) {
+      callback(new Error("请输入新密码"));
+    }
+    if (!myreg.test(password)) {
+      callback(new Error("8-20位、大小写字母+数据组合"));
+    }
+    if (this.perRegForm.password !== this.perRegForm.passwordCommit) {
+      callback(new Error("两次输入密码不一致"));
     } else {
       callback();
     }
@@ -107,6 +126,7 @@ export default class LoginComp extends Vue implements ILoginPage {
   async sendMsg(e: any) {
     try {
       this.countDown = true;
+      const res = await this.systemService.commitRegiste(this.perRegForm);
       this.timer = Common.resend(e.target, { num: 5 }, () => {
         this.countDown = false;
       });
@@ -116,13 +136,12 @@ export default class LoginComp extends Vue implements ILoginPage {
   }
 
   /**
-   * 登录
-   * @param type 登录类型
+   * 注册
+   * @param type 注册类型
    */
   async submitForm(type: string) {
     try {
       await (this.$refs[type] as ElForm).validate();
-      const res = await this.systemService.loginDo(this.perLoginForm);
       console.log("success");
     } catch (error) {
       // this.$message.error("请完善信息");
@@ -130,7 +149,5 @@ export default class LoginComp extends Vue implements ILoginPage {
   }
 
   /* 生命钩子 START */
-  mounted() {
-    clearInterval(this.timer);
-  }
+  mounted() {}
 }

@@ -2,18 +2,19 @@
   <div class="comp-module">
     <div class="comp-left">
       <img src="../../styles/images/logo.png" alt="cchrpp logo" />
-      <p>新一代智能互联学网</p>
-      <p>新学界</p>
-      <p>我世界</p>
+      <p>xxx</p>
+      <p>yyy</p>
+      <p>zzz</p>
     </div>
     <div class="account-box">
       <div class="btn">
         <login></login>
+        <register></register>
       </div>
       <img src="../../styles/images/avatar_boy.png" alt="avatar" />
       <el-dropdown @command="handleCommand">
         <span class="el-dropdown-link">
-          小罗<i class="el-icon-arrow-down el-icon--right"></i>
+          xx<i class="el-icon-arrow-down el-icon--right"></i>
         </span>
         <el-dropdown-menu slot="dropdown">
           <el-dropdown-item command="a">账户设置</el-dropdown-item>
@@ -35,6 +36,7 @@ $color: #333;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  z-index: 9;
   .comp-left {
     display: flex;
     align-items: center;
@@ -79,6 +81,7 @@ $color: #333;
     display: flex;
     align-items: center;
     .btn {
+      display: flex;
       button {
         font-size: 18px;
         font-family: PingFang SC;
