@@ -1,7 +1,7 @@
 <template>
   <div class="comp-module">
     <el-dialog
-      title="个人更换绑定手机"
+      title="更换联系手机"
       width="700px"
       :modal-append-to-body="false"
       :close-on-click-modal="false"
@@ -83,7 +83,7 @@
     </el-dialog>
   </div>
 </template>
-<script lang="ts" src="./change-bind-phone.ts"></script>
+<script lang="ts" src="./change-relation-phone.ts"></script>
 <style lang="scss" scoped>
 $color: #333;
 .comp-module {

@@ -18,7 +18,7 @@ import { SystemService } from "../../core/services/system.serv";
 @Component({
   components: {},
 })
-export default class ChangeBindPhoneComp extends ComBaseComp {
+export default class ChangeRelationPhoneComp extends ComBaseComp {
   @AutowiredService
   systemService: SystemService;
   changeForm: BaseInfo = new BaseInfo();
@@ -26,12 +26,6 @@ export default class ChangeBindPhoneComp extends ComBaseComp {
   countDownNew: boolean = false;
   timerOld: any;
   timerNew: any;
-  rules: any = {
-    phoneNumber: [{ validator: this.validateMobile, trigger: "change" }],
-    verifyCode: [
-      { required: true, message: "请输入验证码", trigger: "change" },
-    ],
-  };
 
   @Prop({
     default: false,
@@ -108,12 +102,8 @@ export default class ChangeBindPhoneComp extends ComBaseComp {
   }
 
   handleClose() {
-    this.$emit("showDialog", "findLearningNameDialog", false);
+    this.$emit("showDialog", "changeRelationPhoneDialog", false);
   }
-
   /* 生命钩子 START */
-  mounted() {
-    clearInterval(this.timerOld);
-    clearInterval(this.timerNew);
-  }
+  mounted() {}
 }

@@ -12,6 +12,7 @@ export interface ISystemService {
   getPicVerificationCode(params: any): Promise<any>;
   resetPersonalPassword(params: any): Promise<any>;
   resetOrgPassword(params: any): Promise<any>;
+  changePersonalMobile(params: any): Promise<any>;
 }
 
 type ISystemServiceConstructor = new () => ISystemService;
@@ -99,11 +100,30 @@ export class SystemService extends BaseService implements ISystemService {
     });
   }
   public backLearningName(params: any): Promise<any> {
-    return this.proxyHttp.post("backLearningName", params);
+    const { phoneNumber, verifyCode } = params;
+    return this.proxyHttp.post("backLearningName", {
+      phoneNumber,
+      verifyCode,
+    });
   }
+
   public changeOrgMobile(params: any): Promise<any> {
-    return this.proxyHttp.post("changeOrgMobile", params);
+    const {
+      phoneNumber,
+      verifyCode,
+      newVerifyCode,
+      newPhoneNumber,
+      newLinkerName,
+    } = params;
+    return this.proxyHttp.post("changeOrgMobile", {
+      newLinkerName,
+      newPhoneNumber,
+      newVerifyCode,
+      phoneNumber,
+      verifyCode,
+    });
   }
+
   public getVerificationCode(params: any): Promise<any> {
     const { phoneNumber, sendType } = params;
     return this.proxyHttp.post("getVerificationCode", {
@@ -129,10 +149,27 @@ export class SystemService extends BaseService implements ISystemService {
   }
 
   public resetOrgPassword(params: any): Promise<any> {
-    const { phoneNumber, verifyCode, password, passwordCommit } = params;
-    return this.proxyHttp.post("resetOrgPassword", {
+    const {
+      phoneNumber,
+      verifyCode,
       password,
       passwordCommit,
+      learningName,
+    } = params;
+    return this.proxyHttp.post("resetOrgPassword", {
+      learningName,
+      password,
+      passwordCommit,
+      phoneNumber,
+      verifyCode,
+    });
+  }
+
+  public changePersonalMobile(params: any): Promise<any> {
+    const { phoneNumber, verifyCode, newVerifyCode, newPhoneNumber } = params;
+    return this.proxyHttp.post("changePersonalMobile", {
+      newPhoneNumber,
+      newVerifyCode,
       phoneNumber,
       verifyCode,
     });

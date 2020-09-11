@@ -141,8 +141,16 @@
                 v-if="loginType === '1'"
                 >更换手机</a
               >
-              <a v-if="loginType === '2'">忘记新学名</a>
-              <a v-if="loginType === '2'">更换联系手机</a>
+              <a
+                @click="showDialog('findLearningNameDialog', true)"
+                v-if="loginType === '2'"
+                >忘记新学名</a
+              >
+              <a
+                @click="showDialog('changeRelationPhoneDialog', true)"
+                v-if="loginType === '2'"
+                >更换联系手机</a
+              >
             </div>
           </div>
         </div>

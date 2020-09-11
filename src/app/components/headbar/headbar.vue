@@ -28,6 +28,7 @@
       <!-- 更换绑定手机 -->
       <change-bind-phone
         :dialogVisible="changeBindPhoneDialog"
+        @showDialog="showDialog"
       ></change-bind-phone>
 
       <!-- 找回重置密码 -->
@@ -35,6 +36,18 @@
         :dialogVisible="findResetPswDialog"
         @showDialog="showDialog"
       ></find-reset-password>
+
+      <!-- 找回新学名-->
+      <find-learning-name
+        :dialogVisible="findLearningNameDialog"
+        @showDialog="showDialog"
+      ></find-learning-name>
+
+      <!-- 更换联系手机-->
+      <change-relation-phone
+        :dialogVisible="changeRelationPhoneDialog"
+        @showDialog="showDialog"
+      ></change-relation-phone>
     </div>
   </div>
 </template>

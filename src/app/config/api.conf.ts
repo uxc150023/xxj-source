@@ -12,7 +12,7 @@ export const apiConfig: IApiConfig = {
     loginDo: "apiHost:/xxj/create/login/login",
     // 找回新学名
     backLearningName: "apiHost:/xxj/create/manage/backLearningName",
-    // 更换联系手机
+    // 单位更换联系手机
     changeOrgMobile: "apiHost:/xxj/create/manage/changeOrgMobile",
     // 个人更换绑定手机
     changePersonalMobile: "apiHost:/xxj/create/manage/changePersonalMobile",
