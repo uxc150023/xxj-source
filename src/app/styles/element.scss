@@ -80,3 +80,125 @@
     color: #fff;
   }
 }
+
+// 通用对话框
+.common-dialog {
+  // min-height: calc(100vh - 268px);
+  .item-lineHeight-16 {
+    line-height: 16px;
+  }
+  .el-dialog__header {
+    border-bottom: 1px solid #e7eaec;
+    padding: 16px 36px;
+    display: flex;
+    align-items: center;
+    .el-dialog__title {
+      font-size: 16px;
+      font-weight: 400;
+      color: rgba(52, 52, 52, 1);
+      line-height: 22px;
+    }
+  }
+  .el-dialog__body {
+    padding: 24px 30px;
+    // height: 464px;
+    overflow: hidden;
+    overflow-y: scroll;
+    .el-radio-group {
+      width: 100%;
+    }
+
+    margin: 0 auto;
+    min-height: 328px;
+  }
+  .el-dialog__body::-webkit-scrollbar {
+    /*滚动条整体样式*/
+    width: 4px;
+    height: 1px;
+  }
+  .el-dialog__body::-webkit-scrollbar-thumb {
+    /*滚动条里面小方块*/
+    width: 4px;
+    background: rgba(180, 188, 200, 1);
+    border-radius: 3px;
+  }
+  .el-dialog__body::-webkit-scrollbar-track {
+    /*滚动条里面轨道*/
+    display: none;
+  }
+
+  .el-form {
+    margin: 0 auto;
+    width: 514px;
+    .el-input,
+    .el-select {
+      width: 100%;
+      .el-select__tags {
+        .el-tag {
+          border: 0;
+          background: rgba(233, 248, 250, 1);
+          border-radius: 2px;
+          font-size: 14px;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: rgba(44, 187, 211, 1);
+          .el-select__tags-text {
+            font-size: 14px;
+            color: rgba(44, 187, 211, 1);
+            line-height: 20px;
+          }
+        }
+        .el-icon-close::before {
+          color: #2cbbd3;
+        }
+        .el-icon-close {
+          border: 1px solid rgba(44, 187, 211, 1);
+          background: transparent;
+        }
+      }
+    }
+    .el-radio {
+      .el-radio__input.is-checked .el-radio__inner {
+        color: #2cbbd3;
+        background-color: #2cbbd3;
+        border-color: #2cbbd3;
+      }
+    }
+    .el-checkbox__input.is-checked .el-checkbox__inner {
+      background-color: #2cbbd3;
+      color: #2cbbd3;
+      border-color: #2cbbd3;
+    }
+    .el-checkbox__input.is-disabled .el-checkbox__inner {
+      background-color: #e9ecef;
+      color: #e9ecef;
+      border-color: #b4bcc8;
+    }
+    .el-checkbox__input.is-focus .el-checkbox__inner {
+      border-color: #dcdfe6;
+    }
+  }
+  .c-dialog-btn {
+    margin-top: 40px;
+    button {
+      font-size: 14px;
+      font-weight: 400;
+      padding: 8px 0;
+      margin-left: 10px;
+      line-height: 20px;
+      width: 90px;
+    }
+  }
+  .el-dialog__footer {
+    border-top: 1px solid #e7eaec;
+    padding: 10px 30px;
+    button {
+      font-size: 14px;
+      font-weight: 400;
+      padding: 8px 0;
+      margin-left: 10px;
+      line-height: 20px;
+      width: 90px;
+    }
+  }
+}

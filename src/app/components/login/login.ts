@@ -1,48 +1,26 @@
 import { ElForm } from "element-ui/types/form";
 import { Component, Prop, Provide, Vue, Watch } from "vue-property-decorator";
-import { LoginInfo } from "../../../app/core/domain/loginInfo";
 import { AutowiredService } from "../../../lib/sg-resource/decorators";
+import { ComBaseComp } from "../../core/ComBaseComp";
 import Common from "../../core/common";
 import { PATTERN_REG } from "../../core/constants";
+import { BaseInfo } from "../../core/domain/BaseInfo";
 import { SystemService } from "../../core/services/system.serv";
-
-interface ILoginPage {
-  /**
-   * 登录框显示
-   */
-  showLogin: boolean;
-  /**
-   * 登录类型 per个人 org单位社团
-   */
-  loginType: string;
-  /**
-   * 个人登录form
-   */
-  perLoginForm: LoginInfo;
-  /**
-   * 单位登录form
-   */
-  orgLoginForm: LoginInfo;
-  /**
-   * 个人登录方式 0密码1短信
-   */
-  perLoginType: number;
-  /**
-   * 倒计时中
-   */
-  countDown: boolean;
-}
 
 @Component({
   components: {},
 })
-export default class LoginComp extends Vue implements ILoginPage {
+export default class LoginComp extends ComBaseComp {
   @AutowiredService
   systemService: SystemService;
   showLogin: boolean = false;
-  loginType: string = "per";
-  perLoginForm: LoginInfo = new LoginInfo();
-  orgLoginForm: LoginInfo = new LoginInfo();
+  loginType: string = "1";
+  autoLogin: boolean = false;
+  pictureVisiable: boolean = true;
+  ruleSmsCode: string = "";
+  pictureUrl: string = "";
+  perLoginForm: BaseInfo = new BaseInfo();
+  orgLoginForm: BaseInfo = new BaseInfo();
   perLoginType: number = 0;
   timer: any;
   countDown: boolean = false;
@@ -62,6 +40,10 @@ export default class LoginComp extends Vue implements ILoginPage {
     return (
       Common.isValidateMobile(this.perLoginForm.phoneNumber) && !this.countDown
     );
+  }
+
+  get msgBtn() {
+    return this.$refs.msgBtn as HTMLButtonElement;
   }
 
   /**
@@ -104,12 +86,26 @@ export default class LoginComp extends Vue implements ILoginPage {
   /**
    * 发送验证码
    */
-  async sendMsg(e: any) {
+  async sendMsg(e: any, isReplace: boolean = false) {
     try {
       this.countDown = true;
+      this.perLoginForm.sendType = 1;
+      const res = await this.systemService.getVerificationCode(
+        this.perLoginForm,
+      );
+      this.perLoginForm.verifyCode = res;
+      // 频繁操作
+      // if (res) {
+      //   if (!isReplace && this.pictureVisiable) {
+      //     this.$message.error("请输入图片验证码对应的字母");
+      //   }
+      //   this.pictureVisiable = true;
+      //   this.pictureUrl = "data:image/jpeg;base64," + res.pictureTokenImage;
+      // } else {
       this.timer = Common.resend(e.target, { num: 5 }, () => {
         this.countDown = false;
       });
+      // }
     } catch (error) {
       //
     }
@@ -119,14 +115,29 @@ export default class LoginComp extends Vue implements ILoginPage {
    * 登录
    * @param type 登录类型
    */
-  async submitForm(type: string) {
+  async submitForm() {
     try {
-      await (this.$refs[type] as ElForm).validate();
-      const res = await this.systemService.loginDo(this.perLoginForm);
-      console.log("success");
+      if (this.loginType === "1") {
+        this.perLoginForm.personalOrOrg = this.loginType;
+        this.perLoginForm.autoLogin = this.autoLogin ? "1" : "0";
+        await (this.$refs.perLoginForm as ElForm).validate();
+        const res = await this.systemService.loginDo(this.perLoginForm);
+      } else {
+        this.orgLoginForm.personalOrOrg = this.loginType;
+        this.orgLoginForm.autoLogin = this.autoLogin ? "1" : "0";
+        await (this.$refs.orgLoginForm as ElForm).validate();
+        const res = await this.systemService.loginDo(this.orgLoginForm);
+      }
     } catch (error) {
-      // this.$message.error("请完善信息");
+      this.messageError(error);
     }
+  }
+
+  /**
+   * 显示各种dialog
+   */
+  showDialog(type: string, status: boolean) {
+    this.$emit("showDialog", type, status);
   }
 
   /* 生命钩子 START */

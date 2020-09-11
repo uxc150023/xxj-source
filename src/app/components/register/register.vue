@@ -4,17 +4,17 @@
       placement="bottom"
       trigger="click"
       popper-class="login-popper"
-      v-model="showLogin"
+      v-model="showRegister"
     >
       <p><span>xxx</span> <span>yyy</span></p>
-      <i class="el-icon-close" @click="showLogin = false"></i>
-      <el-radio-group v-model="tabPosition" style="margin-bottom: 30px;">
-        <el-radio-button label="per">个人注册</el-radio-button>
-        <el-radio-button label="org">机构或社团等注册</el-radio-button>
+      <i class="el-icon-close" @click="showRegister = false"></i>
+      <el-radio-group v-model="registType" style="margin-bottom: 30px;">
+        <el-radio-button label="1">个人注册</el-radio-button>
+        <el-radio-button label="2">机构或社团等注册</el-radio-button>
       </el-radio-group>
 
-      <el-tabs v-model="tabPosition" class="login-tabs">
-        <el-tab-pane label="" name="per">
+      <el-tabs v-model="registType" class="login-tabs">
+        <el-tab-pane label="" name="1">
           <el-form
             :model="perRegForm"
             :rules="rules"
@@ -70,9 +70,9 @@
               ></el-input>
             </el-form-item>
 
-            <el-form-item label="" prop="autoLogin">
-              <el-checkbox-group v-model="perRegForm.autoLogin">
-                <el-checkbox label="1">同意新学界注册协议</el-checkbox>
+            <el-form-item label="" prop="agreement">
+              <el-checkbox-group v-model="perRegForm.agreement">
+                <el-checkbox value="1">同意新学界注册协议</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
 
@@ -87,7 +87,7 @@
             </el-form-item>
           </el-form>
         </el-tab-pane>
-        <el-tab-pane label="" name="org">
+        <el-tab-pane label="" name="2">
           <el-form
             :model="orgRegForm"
             :rules="rules"
@@ -167,8 +167,8 @@
               ></el-input>
             </el-form-item>
 
-            <el-form-item label="" prop="autoLogin">
-              <el-checkbox-group v-model="orgRegForm.autoLogin">
+            <el-form-item label="" prop="agreement">
+              <el-checkbox-group v-model="orgRegForm.agreement">
                 <el-checkbox label="1">同意新学界注册协议</el-checkbox>
               </el-checkbox-group>
             </el-form-item>

@@ -19,18 +19,15 @@ import { SystemService } from "../../core/services/system.serv";
 @Component({
   components: {},
 })
-export default class RegisterComp extends ComBaseComp {
+export default class FindResetPasswordComp extends ComBaseComp {
   @AutowiredService
   systemService: SystemService;
-  showRegister: boolean = false;
-  perRegForm: BaseInfo = new BaseInfo();
-  orgRegForm: BaseInfo = new BaseInfo();
-  registType: string = "1"; // 注册类型
-  options: any[] = [
-    { label: "xxx", value: "1" },
-    { label: "yyy", value: "2" },
-    { label: "zzz", value: "3" },
-  ];
+  perForm: BaseInfo = new BaseInfo();
+  orgForm: BaseInfo = new BaseInfo();
+  type: string = "1";
+  countDown: boolean = false;
+  timer: any;
+
   rules: any = {
     autoLogin: [
       { required: true, message: "请先阅读并同意协议", trigger: "change" },
@@ -58,17 +55,19 @@ export default class RegisterComp extends ComBaseComp {
       },
     ],
   };
-  countDown: boolean;
-  timer: any;
+
+  @Prop({
+    default: false,
+  })
+  dialogVisible: boolean;
 
   get allowSendMsgPer() {
-    return (
-      Common.isValidateMobile(this.perRegForm.phoneNumber) && !this.countDown
-    );
+    return Common.isValidateMobile(this.perForm.phoneNumber) && !this.countDown;
   }
+
   get allowSendMsgOrg() {
     return (
-      Common.isValidateMobile(this.orgRegForm.newPhoneNumber) && !this.countDown
+      Common.isValidateMobile(this.orgForm.newPhoneNumber) && !this.countDown
     );
   }
 
@@ -104,7 +103,7 @@ export default class RegisterComp extends ComBaseComp {
     if (!myreg.test(password)) {
       callback(new Error("8-20位、大小写字母+数据组合"));
     }
-    if (this.perRegForm.password !== this.perRegForm.passwordCommit) {
+    if (this.perForm.password !== this.perForm.passwordCommit) {
       callback(new Error("两次输入密码不一致"));
     } else {
       callback();
@@ -135,8 +134,8 @@ export default class RegisterComp extends ComBaseComp {
   async sendMsg(e: any) {
     try {
       this.countDown = true;
-      const res = await this.systemService.getVerificationCode(this.perRegForm);
-      this.perRegForm.verifyCode = res;
+      const res = await this.systemService.getVerificationCode(this.perForm);
+      this.perForm.verifyCode = res;
       this.timer = Common.resend(e.target, { num: 5 }, () => {
         this.countDown = false;
       });
@@ -145,19 +144,22 @@ export default class RegisterComp extends ComBaseComp {
     }
   }
 
-  /**
-   * 注册
-   * @param type 注册类型
-   */
-  async submitForm(type: string) {
+  async commit() {
     try {
-      await (this.$refs[type] as ElForm).validate();
-      this.perRegForm.sendType = 1;
-      this.perRegForm.registType = this.registType;
-      const res = this.systemService.commitRegister(this.perRegForm);
+      if (this.type === "1") {
+        await (this.$refs.perForm as ElForm).validate();
+        const res = this.systemService.resetPersonalPassword(this.perForm);
+      } else {
+        await (this.$refs.orgForm as ElForm).validate();
+        const res = this.systemService.resetPersonalPassword(this.orgForm);
+      }
     } catch (error) {
       this.messageError(error);
     }
+  }
+
+  handleClose() {
+    this.$emit("showDialog", "findResetPswDialog", false);
   }
 
   /* 生命钩子 START */
