@@ -1,5 +1,12 @@
 import { ElForm } from "element-ui/types/form";
-import { Component, Prop, Provide, Vue, Watch } from "vue-property-decorator";
+import {
+  Component,
+  Inject,
+  Prop,
+  Provide,
+  Vue,
+  Watch,
+} from "vue-property-decorator";
 import { AutowiredService } from "../../../lib/sg-resource/decorators";
 import { ComBaseComp } from "../../core/ComBaseComp";
 import Common from "../../core/common";
@@ -16,7 +23,7 @@ export default class LoginComp extends ComBaseComp {
   showLogin: boolean = false;
   loginType: string = "1";
   autoLogin: boolean = false;
-  pictureVisiable: boolean = true;
+  pictureVisiable: boolean = false;
   ruleSmsCode: string = "";
   pictureUrl: string = "";
   perLoginForm: BaseInfo = new BaseInfo();
@@ -35,6 +42,8 @@ export default class LoginComp extends ComBaseComp {
       { required: true, message: "请输入验证码", trigger: "change" },
     ],
   };
+
+  @Inject("reload") reload: any;
 
   get allowSendMsgPer() {
     return (
@@ -116,6 +125,7 @@ export default class LoginComp extends ComBaseComp {
    * @param type 登录类型
    */
   async submitForm() {
+    // this.reload(); // 刷新页面
     try {
       if (this.loginType === "1") {
         this.perLoginForm.personalOrOrg = this.loginType;

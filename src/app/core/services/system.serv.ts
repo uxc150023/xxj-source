@@ -32,39 +32,12 @@ export class SystemService extends BaseService implements ISystemService {
     return this.proxyHttp.post("login", { userName, password });
   }
   public loginDo(params: any): Promise<any> {
-    const {
-      autoLogin,
-      learningName,
-      newLinkerName,
-      newPhoneNumbe,
-      newVerifyCode,
-      password,
-      passwordCommit,
-      personalOrOrg,
-      phoneNumber,
-      registType,
-      sendBizNo,
-      sendType,
-      type,
-      verifyCode,
-      verifyType,
-    } = params;
+    const { autoLogin, password, phoneNumber, verifyCode } = params;
     return this.proxyHttp.post("loginDo", {
       autoLogin,
-      learningName,
-      newLinkerName,
-      newPhoneNumbe,
-      newVerifyCode,
       password,
-      passwordCommit,
-      personalOrOrg,
       phoneNumber,
-      registType,
-      sendBizNo,
-      sendType,
-      type,
       verifyCode,
-      verifyType,
     });
   }
   public commitRegister(params: any): Promise<any> {

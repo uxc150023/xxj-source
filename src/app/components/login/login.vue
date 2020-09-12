@@ -6,7 +6,7 @@
       popper-class="login-popper"
       v-model="showLogin"
     >
-      <p><span>xxx</span> <span>yyy</span></p>
+      <p><span>新学界</span> <span>我世界</span></p>
       <i class="el-icon-close" @click="showLogin = false"></i>
       <el-radio-group v-model="loginType" style="margin-bottom: 30px;">
         <el-radio-button label="1">个人登录</el-radio-button>
@@ -21,11 +21,11 @@
             ref="perLoginForm"
             class="loginForm"
           >
-            <el-form-item label="" prop="phoneNumber">
+            <el-form-item label="" prop="">
               <el-input
-                type="tel"
+                type="text"
                 v-model="perLoginForm.phoneNumber"
-                placeholder="请输入手机号"
+                placeholder="请输入注册手机/新学名"
                 size="large"
                 style="width: 512px"
               ></el-input>
@@ -100,10 +100,10 @@
             ref="orgLoginForm"
             class="loginForm"
           >
-            <el-form-item label="" prop="learningName">
+            <el-form-item label="" prop="">
               <el-input
                 type="text"
-                v-model="orgLoginForm.learningName"
+                v-model="orgLoginForm.phoneNumber"
                 placeholder="新学名（注册的单位/社团简称或昵称）"
                 size="large"
                 style="width: 512px"

@@ -11,11 +11,21 @@
       center
     >
       <el-form :model="changeForm" ref="changeForm" :rules="rules">
+        <el-form-item label="" prop="learningName">
+          <el-input
+            type="text"
+            v-model="changeForm.learningName"
+            placeholder="新学名（注册的简称或昵称）"
+            size="large"
+            style="width: 512px"
+          ></el-input>
+        </el-form-item>
+
         <el-form-item label="" prop="phoneNumber">
           <el-input
             type="tel"
             v-model="changeForm.phoneNumber"
-            placeholder="请输入旧手机号"
+            placeholder="原联系手机号"
             size="large"
             style="width: 512px"
           ></el-input>
@@ -41,6 +51,16 @@
               >
             </div>
           </div>
+        </el-form-item>
+
+        <el-form-item label="" prop="newLinkerName">
+          <el-input
+            type="text"
+            v-model="changeForm.newLinkerName"
+            placeholder="新的联系人"
+            size="large"
+            style="width: 512px"
+          ></el-input>
         </el-form-item>
 
         <el-form-item label="" prop="phoneNumber">

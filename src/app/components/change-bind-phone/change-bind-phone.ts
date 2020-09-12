@@ -108,7 +108,7 @@ export default class ChangeBindPhoneComp extends ComBaseComp {
   }
 
   handleClose() {
-    this.$emit("showDialog", "findLearningNameDialog", false);
+    this.$emit("showDialog", "changeBindPhoneDialog", false);
   }
 
   /* 生命钩子 START */

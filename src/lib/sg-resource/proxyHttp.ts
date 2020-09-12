@@ -1,6 +1,7 @@
 // tslint:disable-next-line:no-var-requires
 const MockAdapter = require("axios-mock-adapter");
 import Axios, { AxiosPromise, AxiosRequestConfig, AxiosResponse } from "axios";
+import NProgress from "nprogress";
 import { ICommon } from "./common";
 import { IConfigAdapter, IMockData } from "./config";
 import { SGVFactory } from "./factory";
@@ -129,6 +130,7 @@ export class ProxyHttp implements IProxyHttp {
     this.reqInterceptor = Axios.interceptors.request.use(
       (config) => {
         // console.log("request", JSON.stringify(config));
+        NProgress.start();
         this.removePending(config);
         config.cancelToken = new Axios.CancelToken((c) => {
           this.pending.push({
@@ -161,6 +163,7 @@ export class ProxyHttp implements IProxyHttp {
       (response) => {
         // console.log("response", JSON.stringify(response.config));
         this.removePending(response.config);
+        NProgress.done();
         return response;
       },
       (error) => {

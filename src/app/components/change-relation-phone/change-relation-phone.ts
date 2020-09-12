@@ -27,6 +27,23 @@ export default class ChangeRelationPhoneComp extends ComBaseComp {
   timerOld: any;
   timerNew: any;
 
+  rules: any = {
+    learningName: [
+      { required: true, message: "请输入新学名", trigger: "change" },
+    ],
+    newLinkerName: [
+      { required: true, message: "请输入新学名", trigger: "change" },
+    ],
+    newPhoneNumber: [{ validator: this.validateMobile, trigger: "change" }],
+    newVerifyCode: [
+      { required: true, message: "请输入验证码", trigger: "change" },
+    ],
+    phoneNumber: [{ validator: this.validateMobile, trigger: "change" }],
+    verifyCode: [
+      { required: true, message: "请输入验证码", trigger: "change" },
+    ],
+  };
+
   @Prop({
     default: false,
   })

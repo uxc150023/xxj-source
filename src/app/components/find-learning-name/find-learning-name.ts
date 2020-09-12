@@ -23,7 +23,7 @@ export default class FindLearningNameComp extends ComBaseComp {
   systemService: SystemService;
   baseForm: BaseInfo = new BaseInfo();
   countDown: boolean = false;
-  time: any;
+  timer: any;
 
   rules: any = {
     phoneNumber: [{ validator: this.validateMobile, trigger: "change" }],
@@ -37,7 +37,7 @@ export default class FindLearningNameComp extends ComBaseComp {
   })
   dialogVisible: boolean;
 
-  get allowSendMsgOld() {
+  get allowSendMsg() {
     return (
       Common.isValidateMobile(this.baseForm.phoneNumber) && !this.countDown
     );
@@ -67,24 +67,20 @@ export default class FindLearningNameComp extends ComBaseComp {
   async sendMsg(e: any, type: string) {
     try {
       if (type === "old") {
-        this.countDownOld = true;
-        this.changeForm.sendType = 1;
-        const res = await this.systemService.getVerificationCode(
-          this.changeForm,
-        );
-        this.changeForm.verifyCode = res;
-        this.timerOld = Common.resend(e.target, { num: 5 }, () => {
-          this.countDownOld = false;
+        this.countDown = true;
+        this.baseForm.sendType = 1;
+        const res = await this.systemService.getVerificationCode(this.baseForm);
+        this.baseForm.verifyCode = res;
+        this.timer = Common.resend(e.target, { num: 5 }, () => {
+          this.countDown = false;
         });
       } else {
-        this.countDownNew = true;
-        this.changeForm.sendType = 1;
-        const res = await this.systemService.getVerificationCode(
-          this.changeForm,
-        );
-        this.changeForm.newVerifyCode = res;
-        this.timerNew = Common.resend(e.target, { num: 5 }, () => {
-          this.countDownNew = false;
+        this.countDown = true;
+        this.baseForm.sendType = 1;
+        const res = await this.systemService.getVerificationCode(this.baseForm);
+        this.baseForm.newVerifyCode = res;
+        this.timer = Common.resend(e.target, { num: 5 }, () => {
+          this.countDown = false;
         });
       }
     } catch (error) {
@@ -92,8 +88,16 @@ export default class FindLearningNameComp extends ComBaseComp {
     }
   }
 
+  async commit(type: string) {
+    try {
+      await (this.$refs[type] as ElForm).validate();
+    } catch (error) {
+      this.messageError(error);
+    }
+  }
+
   handleClose() {
-    this.$emit("showDialog", "changeBindPhoneDialog", false);
+    this.$emit("showDialog", "findLearningNameDialog", false);
   }
   /* 生命钩子 START */
   mounted() {
