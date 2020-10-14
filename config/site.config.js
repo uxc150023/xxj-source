@@ -21,26 +21,6 @@ var __sg_site_config__ = {
     protocol: "http:",
     publicPath: "/",
   },
-  UAT: {
-    remote: "uat.domain.name:18080",
-    otherRemotes: {
-      user: "uat.domain.name:18080",
-    },
-    local: "uat.domain.name:8080",
-    entrance: "http://uat.domain.name:8080/login",
-    protocol: "http:",
-    publicPath: "/",
-  },
-  MASTER: {
-    remote: "domain.name:18080",
-    otherRemotes: {
-      user: "domain.name:18080",
-    },
-    local: "domain.name:8080",
-    entrance: "https://domain.name:8080/login",
-    protocol: "https:",
-    publicPath: "/",
-  },
   runtimes: "DEV",
 };
 if (typeof global === "object") {

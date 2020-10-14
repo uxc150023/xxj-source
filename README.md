@@ -1,21 +1,4 @@
-## 项目说明文档
-
-此项目是一个项目脚手架生成的。  
-如果你想创建一个新的项目，正确的打开方式是：
-
-### I. 安装
-
-```sh
-npm i -g sgv-cli
-```
-
-### II. 初始化一个项目
-
-```sh
-sgv init [project name]
-```
-
-### III. 安装项目依赖包
+### I. 安装项目依赖包
 
 ```
 cd [project name] && npm i
@@ -27,7 +10,7 @@ cd [project name] && npm i
 npm i -g rimraf mkdirp ncp cross-env && npm i
 ```
 
-### IV. 启动开发环境开始开发
+### II. 启动开发环境开始开发
 
 ```
 npm run dev

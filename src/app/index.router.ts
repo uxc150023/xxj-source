@@ -21,8 +21,17 @@ const routes: RouteConfig[] = [
       jurisdiction: true,
     },
     children: [
+      // 建站
       {
-        path: "/home",
+        path: "/website/:step?",
+        name: "website",
+        component: PageFactory.websitePagePreloading,
+        meta: {
+          jurisdiction: true,
+        },
+      },
+      {
+        path: "/home/:tab?",
         name: "home",
         component: PageFactory.homePagePreloading,
         meta: {
@@ -81,6 +90,47 @@ const routes: RouteConfig[] = [
         path: "/alliance",
         name: "alliance",
         component: PageFactory.alliancePagePreloading,
+        meta: {
+          jurisdiction: true,
+        },
+      },
+      {
+        path: "/presentbook",
+        name: "presentbook",
+        component: PageFactory.presentbookPagePreloading,
+        meta: {
+          jurisdiction: true,
+        },
+      },
+      {
+        path: "/contribute",
+        name: "contribute",
+        component: PageFactory.contributePagePreloading,
+        meta: {
+          jurisdiction: true,
+        },
+      },
+      {
+        path: "/competition",
+        name: "competition",
+        component: PageFactory.competitionPagePreloading,
+        meta: {
+          jurisdiction: true,
+        },
+      },
+      {
+        path: "/masterwork",
+        name: "masterwork",
+        component: PageFactory.masterworkPagePreloading,
+        meta: {
+          jurisdiction: true,
+        },
+      },
+      // 我世界
+      {
+        path: "/myworld/:step?",
+        name: "myworld",
+        component: PageFactory.myworldPagePreloading,
         meta: {
           jurisdiction: true,
         },

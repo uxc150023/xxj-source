@@ -13,6 +13,8 @@ import Common from "../../core/common";
 import { PATTERN_REG } from "../../core/constants";
 import { BaseInfo } from "../../core/domain/BaseInfo";
 import { SystemService } from "../../core/services/system.serv";
+import CommonStorage from "../../core/storage.conf";
+import { SET_ACCOUNT_INFO } from "../../core/store/mutationTypes";
 
 @Component({
   components: {},
@@ -20,7 +22,6 @@ import { SystemService } from "../../core/services/system.serv";
 export default class LoginComp extends ComBaseComp {
   @AutowiredService
   systemService: SystemService;
-  showLogin: boolean = false;
   loginType: string = "1";
   autoLogin: boolean = false;
   pictureVisiable: boolean = false;
@@ -32,15 +33,17 @@ export default class LoginComp extends ComBaseComp {
   timer: any;
   countDown: boolean = false;
   debounceUse: any = Common.debounce(this.sendMsg, 500);
+  showLogin: boolean = false;
   rules: any = {
     learningName: [
       { required: true, message: "请输入新学名", trigger: "change" },
     ],
     password: [{ validator: this.isPawAvailable, trigger: "change" }],
-    phoneNumber: [{ validator: this.validateMobile, trigger: "change" }],
-    verifyCode: [
-      { required: true, message: "请输入验证码", trigger: "change" },
+    // phoneNumber: [{ validator: this.validateMobile, trigger: "change" }],
+    phoneNumber: [
+      { required: true, message: "请输入注册手机/新学名", trigger: "change" },
     ],
+    smsCode: [{ required: true, message: "请输入验证码", trigger: "change" }],
   };
 
   @Inject("reload") reload: any;
@@ -98,11 +101,11 @@ export default class LoginComp extends ComBaseComp {
   async sendMsg(e: any, isReplace: boolean = false) {
     try {
       this.countDown = true;
-      this.perLoginForm.sendType = 1;
+      this.perLoginForm.sendType = "3";
       const res = await this.systemService.getVerificationCode(
         this.perLoginForm,
       );
-      this.perLoginForm.verifyCode = res;
+      // this.perLoginForm.password = res;
       // 频繁操作
       // if (res) {
       //   if (!isReplace && this.pictureVisiable) {
@@ -116,7 +119,7 @@ export default class LoginComp extends ComBaseComp {
       });
       // }
     } catch (error) {
-      //
+      this.messageError(error);
     }
   }
 
@@ -125,19 +128,28 @@ export default class LoginComp extends ComBaseComp {
    * @param type 登录类型
    */
   async submitForm() {
-    // this.reload(); // 刷新页面
     try {
+      let res;
       if (this.loginType === "1") {
         this.perLoginForm.personalOrOrg = this.loginType;
         this.perLoginForm.autoLogin = this.autoLogin ? "1" : "0";
+        this.perLoginForm.password =
+          this.perLoginType === 1
+            ? this.perLoginForm.smsCode
+            : this.perLoginForm.password;
         await (this.$refs.perLoginForm as ElForm).validate();
-        const res = await this.systemService.loginDo(this.perLoginForm);
+        res = await this.systemService.loginDo(this.perLoginForm);
       } else {
         this.orgLoginForm.personalOrOrg = this.loginType;
         this.orgLoginForm.autoLogin = this.autoLogin ? "1" : "0";
         await (this.$refs.orgLoginForm as ElForm).validate();
-        const res = await this.systemService.loginDo(this.orgLoginForm);
+        res = await this.systemService.loginDo(this.orgLoginForm);
       }
+      CommonStorage.setStorageInfo(CommonStorage.LOGIN_FORM, this.perLoginForm);
+      this.$store.commit(SET_ACCOUNT_INFO, res);
+      this.$message.success("登录成功");
+      this.setShowLoginRegister();
+      this.reload();
     } catch (error) {
       this.messageError(error);
     }
@@ -148,6 +160,17 @@ export default class LoginComp extends ComBaseComp {
    */
   showDialog(type: string, status: boolean) {
     this.$emit("showDialog", type, status);
+  }
+
+  setShowLoginRegister() {
+    this.showLogin = false;
+    (this.$refs.perLoginForm as ElForm).resetFields();
+    (this.$refs.orgLoginForm as ElForm).resetFields();
+  }
+
+  showPopover() {
+    this.showLogin = true;
+    this.$emit("setShowLoginRegister", "register");
   }
 
   /* 生命钩子 START */

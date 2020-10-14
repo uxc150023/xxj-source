@@ -15,6 +15,7 @@ import { SystemService } from "../../../app/core/services/system.serv";
 import { AutowiredService } from "../../../lib/sg-resource/decorators";
 import { ComBaseComp } from "../../core/ComBaseComp";
 import { AVATAR, LOGIN_INFO } from "../../core/constants";
+import { IState } from "../../core/store";
 
 @Component({
   computed: {
@@ -40,6 +41,10 @@ export default class AccountSettings extends mixins(ComBaseComp) {
 
   get accountForm() {
     return this.$refs.accountForm as ElForm;
+  }
+
+  get accountInfo() {
+    return (this.$store.state as IState).accountInfo;
   }
 
   validatePass2(rule: any, value: any, callback: any) {

@@ -3,16 +3,15 @@
     <headbar></headbar>
     <el-container>
       <el-container>
-        <el-aside style="width: 300px;">
+        <el-aside>
           <rightview></rightview>
         </el-aside>
         <el-container>
           <el-main>
             <nav-menu :tabs="tabs"></nav-menu>
-            <div class="page-bg"></div>
             <router-view />
           </el-main>
-          <el-footer>Footer</el-footer>
+          <el-footer>新学界（上海）文教科技有限公司</el-footer>
         </el-container>
       </el-container>
     </el-container>
@@ -21,11 +20,6 @@
 <script lang="ts" src="./index.ts"></script>
 <style lang="scss" scoped>
 .page-module {
-  .page-bg {
-    width: 100%;
-    height: 186px;
-    // background: red;
-  }
   .el-header,
   .el-footer {
     background-color: #b3c0d1;
@@ -41,18 +35,20 @@
     text-align: center;
     line-height: 200px;
     height: calc(100vh);
-
     position: fixed;
-    top: 46px;
+    width: calc(25%) !important;
   }
 
   .el-main {
-    background-color: #e9eef3;
+    // background-color: #e9eef3;
+    background-color: #fafafa;
     color: #333;
     min-height: calc(100vh - 60px);
     overflow: hidden;
     overflow-y: auto;
-    padding: 46px 0 0 300px;
+    padding: 46px 6px 6px 6px;
+    width: calc(75%);
+    margin-left: calc(25%);
   }
 
   body > .el-container {

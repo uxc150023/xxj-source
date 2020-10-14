@@ -3,25 +3,46 @@
     <div class="comp-module-page">
       <div class="comp-left">
         <img src="../../styles/images/logo.png" alt="cchrpp logo" />
-        <p>xxx</p>
-        <p>yyy</p>
-        <p>zzz</p>
+        <el-menu
+          :default-active="activeMenu"
+          router
+          mode="horizontal"
+          background-color="transparent"
+          text-color="#fff"
+        >
+          <el-menu-item
+            v-for="(item, index) in tabs"
+            :key="index"
+            :index="item.index"
+          >
+            {{ item.label }}
+          </el-menu-item>
+        </el-menu>
       </div>
       <div class="account-box">
         <div class="btn">
-          <login @showDialog="showDialog"></login>
-          <register></register>
+          <login
+            @showDialog="showDialog"
+            @setShowLoginRegister="setShowLoginRegister"
+            ref="login"
+          ></login>
+          <register
+            ref="register"
+            @setShowLoginRegister="setShowLoginRegister"
+          ></register>
         </div>
-        <img src="../../styles/images/avatar_boy.png" alt="avatar" />
-        <el-dropdown @command="handleCommand">
-          <span class="el-dropdown-link">
-            xx<i class="el-icon-arrow-down el-icon--right"></i>
-          </span>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item command="a">账户设置</el-dropdown-item>
-            <el-dropdown-item command="e" divided>退出</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <div v-if="0 === 1">
+          <img src="../../styles/images/avatar_boy.png" alt="avatar" />
+          <el-dropdown @command="handleCommand">
+            <span class="el-dropdown-link">
+              xx<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="a">账户设置</el-dropdown-item>
+              <el-dropdown-item command="e" divided>退出</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+        </div>
       </div>
     </div>
     <div style="position: absolute;">
@@ -60,25 +81,29 @@ $color: #333;
   background: linear-gradient(90deg, #59ade7 0%, #5145ec 100%);
   position: fixed;
   top: 0;
-  width: 100%;
   display: flex;
   justify-content: space-between;
   z-index: 9;
+  width: calc(75%);
+  right: 0;
   .comp-left {
     display: flex;
     align-items: center;
     img {
-      width: 66px;
-      height: 28px;
+      width: 84px;
+      height: 46px;
       margin-right: 8px;
+      margin-left: 16px;
     }
-    p {
-      font-size: 18px;
-      font-family: PingFang SC;
-      font-weight: 400;
-      color: #ffffff;
-      margin-right: 30px;
-      cursor: pointer;
+    /deep/ {
+      .el-menu-item {
+        font-size: 22px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: 500;
+        color: #ffffff;
+        line-height: 46px;
+        height: 46px;
+      }
     }
   }
   h1 {

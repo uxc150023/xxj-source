@@ -6,7 +6,16 @@ import { SET_ACCOUNT_INFO, SET_PROJECT_NAME } from "./mutationTypes";
 
 Vue.use(Vuex);
 
-const state = {
+export interface IState {
+  [key: string]: any;
+  accountInfo: {};
+  projectName: "";
+}
+// const state = {
+//   accountInfo: {},
+//   projectName: "",
+// };
+const state: IState = {
   accountInfo: {},
   projectName: "",
 };

@@ -1,21 +1,25 @@
 <template>
   <div class="comp-module">
     <el-dialog
-      title="xxxxxxx"
-      width="700px"
+      title="找回/重置密码"
+      width="660px"
       :modal-append-to-body="false"
       :close-on-click-modal="false"
       :visible.sync="dialogVisible"
-      custom-class="common-dialog"
+      custom-class="common-dialog-login"
       :before-close="handleClose"
       center
     >
-      <el-radio-group v-model="type" style="margin-bottom: 30px;">
-        <el-radio-button label="1">个人登录</el-radio-button>
-        <el-radio-button label="2">机构或社团等登录</el-radio-button>
-      </el-radio-group>
+      <div
+        style="margin: auto;margin-bottom: 30px;width: 512px;text-align:right;"
+      >
+        <el-radio-group v-model="resetType">
+          <el-radio-button label="1">个人重置密码</el-radio-button>
+          <el-radio-button label="2">机构/社团等重置密码</el-radio-button>
+        </el-radio-group>
+      </div>
 
-      <el-tabs v-model="type" class="login-tabs">
+      <el-tabs v-model="resetType" class="login-tabs">
         <el-tab-pane label="" name="1">
           <el-form :model="perForm" ref="perForm" :rules="rules">
             <el-form-item label="" prop="phoneNumber">
@@ -23,7 +27,6 @@
                 type="tel"
                 v-model="perForm.phoneNumber"
                 placeholder="请输入个人手机号"
-                size="large"
                 style="width: 512px"
               ></el-input>
             </el-form-item>
@@ -32,15 +35,14 @@
               <div class="flex">
                 <el-input
                   type="text"
+                  class="border-right-none"
                   v-model="perForm.verifyCode"
                   placeholder="手机验证码"
-                  size="large"
                   style="width: 260px"
                 ></el-input>
                 <div class="sms-btn">
                   <el-button
                     ref="msgBtn"
-                    size="large"
                     class="smsCode-button"
                     :disabled="!allowSendMsgPer"
                     @click="sendMsg($event)"
@@ -55,7 +57,6 @@
                 type="password"
                 v-model="perForm.password"
                 placeholder="请用8-20位数字加字母设置新密码"
-                size="large"
                 style="width: 512px"
               ></el-input>
             </el-form-item>
@@ -65,7 +66,6 @@
                 type="password"
                 v-model="perForm.passwordCommit"
                 placeholder="请再次输入新密码"
-                size="large"
                 style="width: 512px"
               ></el-input>
             </el-form-item>
@@ -79,7 +79,6 @@
                 type="text"
                 v-model="orgForm.learningName"
                 placeholder="新学名"
-                size="large"
                 style="width: 512px"
               ></el-input>
             </el-form-item>
@@ -88,8 +87,7 @@
               <el-input
                 type="tel"
                 v-model="orgForm.phoneNumber"
-                placeholder="请输入个人手机号"
-                size="large"
+                placeholder="联系手机号"
                 style="width: 512px"
               ></el-input>
             </el-form-item>
@@ -100,15 +98,14 @@
                   type="text"
                   v-model="orgForm.verifyCode"
                   placeholder="手机验证码"
-                  size="large"
                   style="width: 260px"
+                  class="border-right-none"
                 ></el-input>
                 <div class="sms-btn">
                   <el-button
                     ref="msgBtn"
-                    size="large"
                     class="smsCode-button"
-                    :disabled="!allowSendMsgPer"
+                    :disabled="!allowSendMsgOrg"
                     @click="sendMsg($event)"
                     >获取验证码</el-button
                   >
@@ -121,7 +118,6 @@
                 type="password"
                 v-model="orgForm.password"
                 placeholder="请用8-20位数字加字母设置新密码"
-                size="large"
                 style="width: 512px"
               ></el-input>
             </el-form-item>
@@ -131,17 +127,19 @@
                 type="password"
                 v-model="orgForm.passwordCommit"
                 placeholder="请再次输入新密码"
-                size="large"
                 style="width: 512px"
               ></el-input>
             </el-form-item>
           </el-form>
         </el-tab-pane>
+        <div style="text-align: center;">
+          <el-button type="primary" @click="commit" class="commit-btn"
+            >确&ensp;定</el-button
+          >
+        </div>
       </el-tabs>
 
-      <div slot="footer">
-        <el-button type="primary" size="medium" @click="commit">确定</el-button>
-      </div>
+      <div slot="footer"></div>
     </el-dialog>
   </div>
 </template>
@@ -161,9 +159,9 @@ $color: #333;
   }
 }
 .sms-btn {
-  width: 253px;
+  width: 252px;
   button {
-    font-size: 22px;
+    font-size: 16px;
   }
 }
 .el-icon-close {
@@ -187,5 +185,16 @@ $color: #333;
     line-height: 14px;
     margin-left: 34px;
   }
+}
+.commit-btn {
+  width: 512px;
+  height: 52px;
+  margin: 0 auto;
+
+  font-size: 24px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #ffffff;
+  line-height: 33px;
 }
 </style>

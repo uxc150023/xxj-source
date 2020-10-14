@@ -26,6 +26,9 @@ export default class RegisterComp extends ComBaseComp {
   perRegForm: BaseInfo = new BaseInfo();
   orgRegForm: BaseInfo = new BaseInfo();
   registType: string = "1"; // 注册类型
+  countDown: boolean = false;
+  agreement: boolean = false;
+  timer: any;
   options: any[] = [
     { label: "xxx", value: "1" },
     { label: "yyy", value: "2" },
@@ -46,7 +49,7 @@ export default class RegisterComp extends ComBaseComp {
     learningName: [
       { required: true, message: "请输入新学名", trigger: "change" },
     ],
-    verifyType: [
+    type: [
       { required: true, message: "请选择单位或社团类型", trigger: "change" },
     ],
     agreement: [
@@ -58,8 +61,8 @@ export default class RegisterComp extends ComBaseComp {
       },
     ],
   };
-  countDown: boolean;
-  timer: any;
+
+  @Inject("reload") reload: any;
 
   get allowSendMsgPer() {
     return (
@@ -68,7 +71,7 @@ export default class RegisterComp extends ComBaseComp {
   }
   get allowSendMsgOrg() {
     return (
-      Common.isValidateMobile(this.orgRegForm.newPhoneNumber) && !this.countDown
+      Common.isValidateMobile(this.orgRegForm.phoneNumber) && !this.countDown
     );
   }
 
@@ -134,9 +137,21 @@ export default class RegisterComp extends ComBaseComp {
    */
   async sendMsg(e: any) {
     try {
-      this.countDown = true;
-      const res = await this.systemService.getVerificationCode(this.perRegForm);
-      this.perRegForm.verifyCode = res;
+      if (this.registType === "1") {
+        this.countDown = true;
+        this.perRegForm.sendType = "1";
+        const res = await this.systemService.getVerificationCode(
+          this.perRegForm,
+        );
+        this.perRegForm.verifyCode = res;
+      } else {
+        this.countDown = true;
+        this.orgRegForm.sendType = "2";
+        const res = await this.systemService.getVerificationCode(
+          this.orgRegForm,
+        );
+        this.orgRegForm.verifyCode = res;
+      }
       this.timer = Common.resend(e.target, { num: 5 }, () => {
         this.countDown = false;
       });
@@ -147,17 +162,37 @@ export default class RegisterComp extends ComBaseComp {
 
   /**
    * 注册
-   * @param type 注册类型
    */
-  async submitForm(type: string) {
+  async submitForm() {
     try {
-      await (this.$refs[type] as ElForm).validate();
-      this.perRegForm.sendType = 1;
-      this.perRegForm.registType = this.registType;
-      const res = this.systemService.commitRegister(this.perRegForm);
+      if (this.registType === "1") {
+        await (this.$refs.perRegForm as ElForm).validate();
+        const res = await this.systemService.commitPersonalRegister(
+          this.perRegForm,
+        );
+        this.$message.success("恭喜你，注册成功");
+        this.showRegister = false;
+      } else {
+        await (this.$refs.orgRegForm as ElForm).validate();
+        const res = await this.systemService.commitRegisterOrg(this.orgRegForm);
+        this.$message.success("恭喜你，注册成功");
+        this.showRegister = false;
+      }
+      this.reload(); // 刷新页面
     } catch (error) {
       this.messageError(error);
     }
+  }
+
+  setShowLoginRegister() {
+    this.showRegister = false;
+    (this.$refs.perRegForm as ElForm).resetFields();
+    (this.$refs.orgRegForm as ElForm).resetFields();
+  }
+
+  showPopover() {
+    this.showRegister = true;
+    this.$emit("setShowLoginRegister", "login");
   }
 
   /* 生命钩子 START */

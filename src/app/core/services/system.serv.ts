@@ -3,16 +3,56 @@ import { BaseService } from "./base.serv";
 export interface ISystemService {
   // SGV-BUILD-SERVICE-INTERFACE # NOT DELETE
   login(userName: string, password: string): Promise<any>;
+  /**
+   * 登录
+   * @param params
+   */
   loginDo(params: any): Promise<any>;
-  backLearningName(params: any): Promise<any>;
+  /**
+   * 单位更换联系手机
+   * @param params
+   */
   changeOrgMobile(params: any): Promise<any>;
-  commitRegister(params: any): Promise<any>;
+  /**
+   * 注册 - 个人
+   * @param params
+   */
+  commitPersonalRegister(params: any): Promise<any>;
+  /**
+   * 注册 - 单位
+   * @param params
+   */
   commitRegisterOrg(params: any): Promise<any>;
+  /**
+   * 获取验证码
+   * @param params
+   */
   getVerificationCode(params: any): Promise<any>;
+  /**
+   * 获取图形验证码
+   * @param params
+   */
   getPicVerificationCode(params: any): Promise<any>;
+  /**
+   * 个人重置密码
+   * @param params
+   */
   resetPersonalPassword(params: any): Promise<any>;
+  /**
+   * 单位社团等重置密码
+   * @param params
+   */
   resetOrgPassword(params: any): Promise<any>;
+  /**
+   * 个人更换绑定手机
+   * @param params
+   */
   changePersonalMobile(params: any): Promise<any>;
+  /**
+   * 找回新学名
+   * @param params
+   */
+  retrievegLearningName(params: any): Promise<any>;
 }
 
 type ISystemServiceConstructor = new () => ISystemService;
@@ -40,7 +80,7 @@ export class SystemService extends BaseService implements ISystemService {
       verifyCode,
     });
   }
-  public commitRegister(params: any): Promise<any> {
+  public commitPersonalRegister(params: any): Promise<any> {
     const {
       password,
       passwordCommit,
@@ -48,7 +88,7 @@ export class SystemService extends BaseService implements ISystemService {
       verifyCode,
       verifyType,
     } = params;
-    return this.proxyHttp.post("commitRegister", {
+    return this.proxyHttp.post("commitPersonalRegister", {
       password,
       passwordCommit,
       phoneNumber,
@@ -58,28 +98,24 @@ export class SystemService extends BaseService implements ISystemService {
   }
   public commitRegisterOrg(params: any): Promise<any> {
     const {
+      learningName,
       password,
       passwordCommit,
       phoneNumber,
+      type,
       verifyCode,
       verifyType,
     } = params;
     return this.proxyHttp.post("commitRegisterOrg", {
+      learningName,
       password,
       passwordCommit,
       phoneNumber,
+      type,
       verifyCode,
       verifyType,
     });
   }
-  public backLearningName(params: any): Promise<any> {
-    const { phoneNumber, verifyCode } = params;
-    return this.proxyHttp.post("backLearningName", {
-      phoneNumber,
-      verifyCode,
-    });
-  }
-
   public changeOrgMobile(params: any): Promise<any> {
     const {
       phoneNumber,
@@ -100,7 +136,8 @@ export class SystemService extends BaseService implements ISystemService {
   public getVerificationCode(params: any): Promise<any> {
     const { phoneNumber, sendType } = params;
     return this.proxyHttp.post("getVerificationCode", {
-      phoneNumber,
+      phoneNumber:
+        params.sendType === "7" ? params.newPhoneNumber : params.phoneNumber,
       sendType,
     });
   }
@@ -143,6 +180,14 @@ export class SystemService extends BaseService implements ISystemService {
     return this.proxyHttp.post("changePersonalMobile", {
       newPhoneNumber,
       newVerifyCode,
+      phoneNumber,
+      verifyCode,
+    });
+  }
+
+  public retrievegLearningName(params: any): Promise<any> {
+    const { phoneNumber, verifyCode } = params;
+    return this.proxyHttp.post("retrievegLearningName", {
       phoneNumber,
       verifyCode,
     });

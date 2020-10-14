@@ -1,4 +1,46 @@
 // SGV-BUILD-PAGE-FAC # NOT DELETE
+// 'Myworld' PAGE FACTORY START
+export function myworldPagePreloading(): Promise<any> {
+  return import("./myworld/myworld.vue").catch(error => {
+    return dealOccurred(error, "Myworld");
+  });
+}
+// 'Myworld' PAGE FACTORY END
+// 'Website' PAGE FACTORY START
+export function websitePagePreloading(): Promise<any> {
+  return import("./website/website.vue").catch((error) => {
+    return dealOccurred(error, "Website");
+  });
+}
+// 'Website' PAGE FACTORY END
+// 'Presentbook' PAGE FACTORY START
+export function presentbookPagePreloading(): Promise<any> {
+  return import("./presentbook/presentbook.vue").catch((error) => {
+    return dealOccurred(error, "Presentbook");
+  });
+}
+// 'Presentbook' PAGE FACTORY END
+// 'Contribute' PAGE FACTORY START
+export function contributePagePreloading(): Promise<any> {
+  return import("./contribute/contribute.vue").catch((error) => {
+    return dealOccurred(error, "Contribute");
+  });
+}
+// 'Contribute' PAGE FACTORY END
+// 'Competition' PAGE FACTORY START
+export function competitionPagePreloading(): Promise<any> {
+  return import("./competition/competition.vue").catch((error) => {
+    return dealOccurred(error, "Competition");
+  });
+}
+// 'Competition' PAGE FACTORY END
+// 'Masterwork' PAGE FACTORY START
+export function masterworkPagePreloading(): Promise<any> {
+  return import("./masterwork/masterwork.vue").catch((error) => {
+    return dealOccurred(error, "Masterwork");
+  });
+}
+// 'Masterwork' PAGE FACTORY END
 // 'Personage' PAGE FACTORY START
 export function personagePagePreloading(): Promise<any> {
   return import("./personage/personage.vue").catch((error) => {

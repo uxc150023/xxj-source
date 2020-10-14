@@ -143,11 +143,16 @@ export class ProxyHttp implements IProxyHttp {
             ].join(","),
           });
         });
-        const headerToken = localStorage.getItem(HEADER_TOKEN);
+        // const headerToken = localStorage.getItem(HEADER_TOKEN);
         const productCode = localStorage.getItem(PRODUCT_CODE);
-        // const headerToken = "829633E762F041D7800073258AAA3BA3";
+        const headerToken = JSON.stringify({
+          token:
+            "WKERVhkY3kCWrGUrwL/bLIWo7cNOhAs/3/ToWaeKhqMVq3WFO4CHughLd73bVU9z1StebNJFR4M=",
+        });
         config.headers["access-token"] =
           config.headers["access-token"] || headerToken || "";
+        config.headers["xxj-user-token"] =
+          config.headers["xxj-user-token"] || headerToken || "";
         config.headers["product-code"] =
           config.headers["product-code"] || productCode || "ssu-service";
         config.headers.version = config.headers.version || "1.0.0";
